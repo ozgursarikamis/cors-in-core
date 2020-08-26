@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CorsInCore.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +24,8 @@ namespace CorsInCore.Controllers
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
-        {
+        { 
+            ResponseSettings.SetPaginationHeader(HttpContext, 10, 1, 100, 10000);
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

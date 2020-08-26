@@ -24,7 +24,7 @@ namespace CorsInCore
             services.AddCors(options =>
                 {
                     options.AddPolicy("AllowEverything", corsPolicyBuilder =>
-                        corsPolicyBuilder.WithOrigins(allowedOrigins));
+                        corsPolicyBuilder.WithOrigins(allowedOrigins).AllowCredentials());
 
                     options.AddPolicy("PublicApi", builder => 
                         builder.AllowAnyOrigin()
