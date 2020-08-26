@@ -21,10 +21,8 @@ namespace CorsInCore
             services.AddCors(options =>
                 options.AddPolicy("AllowEverything", corsPolicyBuilder =>
                     corsPolicyBuilder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader())
-                );
+                        .WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
+                ));
             services.AddControllers();
         }
 
