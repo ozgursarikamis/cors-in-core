@@ -18,10 +18,13 @@ namespace CorsInCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")
+                ?.Split(",") ?? new string[0];
+
             services.AddCors(options =>
                 options.AddPolicy("AllowEverything", corsPolicyBuilder =>
                     corsPolicyBuilder
-                        .WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
+                        .WithOrigins(allowedOrigins)
                 ));
             services.AddControllers();
         }
