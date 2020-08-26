@@ -23,17 +23,23 @@ namespace CorsInCore
 
             services.AddCors(options =>
                 {
-                    options.AddPolicy("AllowEverything", corsPolicyBuilder =>
-                    {
-                        corsPolicyBuilder.WithOrigins(allowedOrigins).AllowCredentials();
-                        corsPolicyBuilder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
-                    });
+                    //options.AddPolicy("AllowEverything", corsPolicyBuilder =>
+                    //{
+                    //    corsPolicyBuilder.WithOrigins(allowedOrigins).AllowCredentials();
+                    //    corsPolicyBuilder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
+                    //});
 
-                    options.AddPolicy("PublicApi", builder => 
-                        builder.AllowAnyOrigin()
-                            .WithMethods("GET")
-                            .WithHeaders("Content-Type")
-                        );
+                    //options.AddPolicy("PublicApi", builder => 
+                    //    builder.AllowAnyOrigin()
+                    //        .WithMethods("GET")
+                    //        .WithHeaders("Content-Type")
+                    //    );
+
+                    options.AddPolicy("AllowSubDomains", builder =>
+                    {
+                        builder.WithOrigins("http://*.somedomain.com");
+                        builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+                    });
                 }
             );
             services.AddControllers();
