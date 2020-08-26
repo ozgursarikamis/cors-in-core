@@ -22,10 +22,17 @@ namespace CorsInCore
                 ?.Split(",") ?? new string[0];
 
             services.AddCors(options =>
-                options.AddPolicy("AllowEverything", corsPolicyBuilder =>
-                    corsPolicyBuilder
-                        .WithOrigins(allowedOrigins)
-                ));
+                {
+                    options.AddPolicy("AllowEverything", corsPolicyBuilder =>
+                        corsPolicyBuilder.WithOrigins(allowedOrigins));
+
+                    options.AddPolicy("PublicApi", builder => 
+                        builder.AllowAnyOrigin()
+                            .WithMethods("GET")
+                            .WithHeaders("Content-Type")
+                        );
+                }
+            );
             services.AddControllers();
         }
 
@@ -37,9 +44,9 @@ namespace CorsInCore
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("AllowEverything");
 
             app.UseRouting();
+            app.UseCors("AllowEverything");
 
             app.UseAuthorization();
 
