@@ -23,17 +23,17 @@ namespace CorsInCore
 
             services.AddCors(options =>
                 {
-                    //options.AddPolicy("AllowEverything", corsPolicyBuilder =>
-                    //{
-                    //    corsPolicyBuilder.WithOrigins(allowedOrigins).AllowCredentials();
-                    //    corsPolicyBuilder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
-                    //});
+                    options.AddPolicy("AllowEverything", corsPolicyBuilder =>
+                    {
+                        corsPolicyBuilder.WithOrigins(allowedOrigins).AllowCredentials();
+                        corsPolicyBuilder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
+                    });
 
-                    //options.AddPolicy("PublicApi", builder => 
-                    //    builder.AllowAnyOrigin()
-                    //        .WithMethods("GET")
-                    //        .WithHeaders("Content-Type")
-                    //    );
+                    options.AddPolicy("PublicApi", builder =>
+                        builder.AllowAnyOrigin()
+                            .WithMethods("GET")
+                            .WithHeaders("Content-Type")
+                        );
 
                     options.AddPolicy("AllowSubDomains", builder =>
                     {
@@ -52,6 +52,13 @@ namespace CorsInCore
             {
                 app.UseDeveloperExceptionPage();
             }
+             
+            // use middleware:
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("HeaderType", "HeaderValue");
+                await next();
+            });
 
             app.UseRouting();
             app.UseCors("AllowEverything");
